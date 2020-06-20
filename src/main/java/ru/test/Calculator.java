@@ -7,13 +7,14 @@ import ru.test.exceptions.WrongNumCountException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class Calculator implements SimpleCalculator {
 
     private int minNumber = 1;
     private int maxNumber = 10;
     private final List<String> operations = new ArrayList<>(Arrays.asList("+", "-", "/", "*"));
+    private NumFormat numFormat;
+    private int answer;
 
     private void checkOperation(String operation) throws NotSupportedOperationException {
         if (!operations.contains(operation)) {
@@ -28,13 +29,18 @@ public class Calculator implements SimpleCalculator {
     }
 
     @Override
-    public int calcOperation(int firstNum, int secondNum, String operation)
-            throws NotSupportedOperationException, NotSupportedNumberException {
-        checkOperation(operation);
-        checkNumber(firstNum);
-        checkNumber(secondNum);
+    public int calcAnswerFromString(String rowAction)
+            throws NotSupportedOperationException, NotSupportedNumberException, WrongNumCountException {
 
-        return calcAction(firstNum, secondNum, operation);
+        InputParser inputParser = new InputParser(rowAction);
+
+        checkOperation(inputParser.getAction());
+        checkNumber(inputParser.getFirstNumber());
+        checkNumber(inputParser.getSecondNumber());
+        this.numFormat = inputParser.getFirstNumFormat();
+        this.answer = calcAction(
+                inputParser.getFirstNumber(), inputParser.getSecondNumber(), inputParser.getAction());
+        return this.answer;
     }
 
     private int calcAction(int firstNumber, int secondNumber, String operation)
@@ -53,26 +59,18 @@ public class Calculator implements SimpleCalculator {
         }
     }
 
-    public static void main(String[] args) {
-        SimpleCalculator calc = new Calculator();
-        System.out.println("Calc run, type \"exit\" for exit");
-        while (true) {
-            Scanner in = new Scanner(System.in);
-            String inputRow = in.nextLine();
-            if (inputRow.equals("exit")) {
-                System.out.println("Calc stopped");
-                System.exit(0);
-            }
-            InputParser inputParser;
-            try {
-                inputParser = new InputParser(inputRow);
-                int answer = calc.calcOperation(
-                        inputParser.getFirstNumber(), inputParser.getSecondNumber(), inputParser.getAction());
-                System.out.println(answer);
-            } catch (NotSupportedOperationException | NotSupportedNumberException | WrongNumCountException e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
+    /**
+     * Get answer as string rome/arab
+     * @return
+     * @throws NotSupportedNumberException
+     */
+    public String showAnswer() throws NotSupportedNumberException {
+        if (numFormat.equals(NumFormat.ARAB)) {
+            return String.valueOf(this.answer);
+        } else if (numFormat.equals(NumFormat.ROME)) {
+            return RomanNumber.toRome(this.answer);
+        } else {
+            throw new NotSupportedNumberException();
         }
     }
 }

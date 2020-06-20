@@ -12,7 +12,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <start-class>ru.sites.Calculator</start-class>
+        <start-class>ru.sites.App</start-class>
     </properties>
 
     <dependencies>
@@ -41,7 +41,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ru.test.Calculator</mainClass>
+                            <mainClass>ru.test.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

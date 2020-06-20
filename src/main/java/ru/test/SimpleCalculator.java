@@ -2,6 +2,7 @@ package ru.test;
 
 import ru.test.exceptions.NotSupportedNumberException;
 import ru.test.exceptions.NotSupportedOperationException;
+import ru.test.exceptions.WrongNumCountException;
 
 public interface SimpleCalculator {
 
@@ -21,6 +22,8 @@ public interface SimpleCalculator {
         return firstNumber / secondNumber;
     }
 
-    int calcOperation(int firstNum, int secondNum, String operation) throws NotSupportedOperationException, NotSupportedNumberException;
+    int calcAnswerFromString(String rowAction) throws NotSupportedOperationException, NotSupportedNumberException, WrongNumCountException;
+
+    String showAnswer() throws NotSupportedNumberException;
 
 }

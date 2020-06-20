@@ -10,12 +10,30 @@ import java.util.List;
 public class InputParser {
 
     private int firstNumber;
+    private NumFormat firstNumFormat;
     private int secondNumber;
+    private NumFormat secondNumFormat;
     private String action;
     private final static List<String> romeChars = new ArrayList<>(Arrays.asList("I", "X", "V"));
 
     public InputParser(String inputString) throws WrongNumCountException, NotSupportedNumberException {
         parseRow(inputString);
+    }
+
+    public NumFormat getFirstNumFormat() {
+        return firstNumFormat;
+    }
+
+    private void setFirstNumFormat(String strNumber) {
+        this.firstNumFormat = getNumFormat(strNumber);
+    }
+
+    public NumFormat getSecondNumFormat() {
+        return secondNumFormat;
+    }
+
+    private void setSecondNumFormat(String strNumber) {
+        this.secondNumFormat = getNumFormat(strNumber);
     }
 
     public int getFirstNumber() {
@@ -36,33 +54,24 @@ public class InputParser {
             throw new WrongNumCountException();
         }
 
-        if (!compareEqualNumFormat(rowElements[0], rowElements[2])) {
+        this.firstNumber = parseNumber(rowElements[0]);
+        setFirstNumFormat(rowElements[0]);
+        this.secondNumber = parseNumber(rowElements[2]);
+        setSecondNumFormat(rowElements[2]);
+        this.action = rowElements[1];
+
+        if (!this.firstNumFormat.equals(this.secondNumFormat)) {
             throw new NotSupportedNumberException();
         }
-        this.firstNumber = parseNumber(rowElements[0]);
-        this.secondNumber = parseNumber(rowElements[2]);
-        this.action = rowElements[1];
     }
 
-    /**
-     * Compare num format of two numbers
-     * @param firstNumber
-     * @param secondNumber
-     * @return  true - if both numbers have the same format
-     */
-    static boolean compareEqualNumFormat(String firstNumber, String secondNumber) {
-
-        for (String s1: romeChars) {
-            if (firstNumber.contains(s1)) {
-                for (String s2: romeChars) {
-                    if (secondNumber.contains(s2)) {
-                        return true;
-                    }
-                }
-                return false;
+    public static NumFormat getNumFormat(String strNumber) {
+        for (String s: romeChars) {
+            if (strNumber.contains(s)) {
+                return NumFormat.ROME;
             }
         }
-        return true;
+        return NumFormat.ARAB;
     }
 
     /**

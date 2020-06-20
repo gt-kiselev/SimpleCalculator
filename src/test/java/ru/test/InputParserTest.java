@@ -23,12 +23,6 @@ public class InputParserTest {
     }
 
     @Test
-    public void compareEqualNumFormat() {
-        Assert.assertTrue("must be true", InputParser.compareEqualNumFormat("I", "V"));
-        Assert.assertFalse("must be false", InputParser.compareEqualNumFormat("I", "5"));
-    }
-
-    @Test
     public void parseRow() {
 
         Assert.assertThrows(WrongNumCountException.class, () -> {
