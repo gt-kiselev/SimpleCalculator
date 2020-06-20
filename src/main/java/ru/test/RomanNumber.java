@@ -9,11 +9,11 @@ import java.util.List;
 public class RomanNumber {
 
     private static final List<String> romeTen = new ArrayList<>(Arrays.asList(
-            "0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"
+            "N", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"
     ));
 
     private static final List<String> romeHundred = new ArrayList<>(Arrays.asList(
-            "0", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC", "C"
+            "N", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC", "C"
     ));
 
     public static int toInt(String value) throws NotSupportedNumberException {
@@ -28,7 +28,9 @@ public class RomanNumber {
 
     public static String toRome(int value) throws NotSupportedNumberException {
         try {
-            if (value < 11) {
+            if (value < 0) {
+                return "-" + romeTen.get(Math.abs(value));
+            } else if (value < 11) {
                 return romeTen.get(value);
             } else if (value < 100) {
                 String firstDigit = romeHundred.get(value / 10);
