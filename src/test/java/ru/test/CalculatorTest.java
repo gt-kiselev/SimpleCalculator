@@ -9,11 +9,6 @@ import static org.junit.Assert.*;
 
 public class CalculatorTest {
 
-    @Before
-    public void BeforeTest() {
-        Calculator calc = new Calculator();
-    }
-
     @Test
     public void checkNumbers() throws NotSupportedOperationException, NotSupportedNumberException {
         Calculator calc = new Calculator();

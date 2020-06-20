@@ -55,12 +55,17 @@ public class Calculator implements SimpleCalculator {
 
     public static void main(String[] args) {
         SimpleCalculator calc = new Calculator();
-        System.out.println("Calc run");
+        System.out.println("Calc run, type \"exit\" for exit");
         while (true) {
             Scanner in = new Scanner(System.in);
+            String inputRow = in.nextLine();
+            if (inputRow.equals("exit")) {
+                System.out.println("Calc stopped");
+                System.exit(0);
+            }
             InputParser inputParser;
             try {
-                inputParser = new InputParser(in.nextLine());
+                inputParser = new InputParser(inputRow);
                 int answer = calc.calcOperation(
                         inputParser.getFirstNumber(), inputParser.getSecondNumber(), inputParser.getAction());
                 System.out.println(answer);
